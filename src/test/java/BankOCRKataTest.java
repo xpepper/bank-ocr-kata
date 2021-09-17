@@ -4,26 +4,26 @@ import com.kata.bankocr.BankOCR;
 import com.kata.bankocr.LineReader;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class BankOCRKataTest {
 
-    private static final List<String> ONE_ACCOUNT_NUMBER = Arrays.asList(
+    private static final List<String> ONE_ACCOUNT_NUMBER = asList(
             "line1",
             "line2",
             "line3",
             ""
     );
-    private static final List<String> ANOTHER_ACCOUNT_NUMBER = Arrays.asList(
+    private static final List<String> ANOTHER_ACCOUNT_NUMBER = asList(
             "another line1",
             "another line2",
             "another line3",
@@ -54,14 +54,21 @@ public class BankOCRKataTest {
 
     @Test
     void parse_two_account_numbers() {
-        List<String> lines = Stream.of(ONE_ACCOUNT_NUMBER, ANOTHER_ACCOUNT_NUMBER).flatMap(Collection::stream).collect(Collectors.toList());
-        when(lineReader.readLines()).thenReturn(lines);
+        when(lineReader.readLines()).thenReturn(linesOf(ONE_ACCOUNT_NUMBER, ANOTHER_ACCOUNT_NUMBER));
         when(accountNumberParser.parse(new AccountNumberRow("line1", "line2", "line3"))).thenReturn("an account number");
         when(accountNumberParser.parse(new AccountNumberRow("another line1", "another line2", "another line3"))).thenReturn("another account number");
 
         List<String> accountNumbers = new BankOCR(lineReader, accountNumberParser).parseAccountNumbers();
 
         assertThat(accountNumbers).isEqualTo(List.of("an account number", "another account number"));
+    }
+
+    private List<String> linesOf(List<String> oneAccountNumber, List<String> anotherAccountNumber) {
+        return flatten(oneAccountNumber, anotherAccountNumber);
+    }
+
+    private List<String> flatten(List<String> list, List<String> anotherList) {
+        return Stream.of(list, anotherList).flatMap(Collection::stream).collect(toList());
     }
 
 }
