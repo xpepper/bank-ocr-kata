@@ -3,6 +3,7 @@ package com.kata.bankocr;
 import java.util.List;
 import java.util.stream.IntStream;
 
+import static com.kata.bankocr.BankOCR.DIGIT_SIZE;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
@@ -22,8 +23,8 @@ public class AccountNumberParser {
     }
 
     private List<String> splitByNumber(String line) {
-        return IntStream.iterate(0, i -> i < line.length(), i -> i + 3)
-                .mapToObj(i -> line.substring(i, i + 3))
+        return IntStream.iterate(0, i -> i < line.length(), i -> i + DIGIT_SIZE)
+                .mapToObj(i -> line.substring(i, i + DIGIT_SIZE))
                 .collect(toList());
     }
 }

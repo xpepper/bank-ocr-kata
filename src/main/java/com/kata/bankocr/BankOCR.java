@@ -7,6 +7,9 @@ import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 
 public class BankOCR {
+    private static final int ACCOUNT_NUMBER_ENTRY_SIZE = 4;
+    public static final int DIGIT_SIZE = 3;
+
     private final LineReader lineReader;
     private final AccountNumberParser accountNumberParser;
 
@@ -20,13 +23,14 @@ public class BankOCR {
         if (lines.isEmpty())
             return emptyList();
 
-        return IntStream.iterate(0, i -> i < lines.size(), i -> i + 4)
+        return IntStream.iterate(0, i -> i < lines.size(), i -> i + ACCOUNT_NUMBER_ENTRY_SIZE)
                 .mapToObj(i -> toAccountNumber(lines, i))
                 .collect(toList());
     }
 
     private String toAccountNumber(List<String> lines, int i) {
-        AccountNumberRows accountNumberRows = new AccountNumberRows(lines.get(i), lines.get(i + 1), lines.get(i + 2));
+        List<String> rows = lines.subList(i, i + DIGIT_SIZE);
+        AccountNumberRows accountNumberRows = new AccountNumberRows(rows.get(0), rows.get(1), rows.get(2));
         return accountNumberParser.parse(accountNumberRows);
     }
 }
