@@ -1,9 +1,10 @@
 package com.kata.bankocr;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import static java.util.Collections.emptyList;
+import static java.util.stream.Collectors.toList;
 
 public class BankOCR {
     private final LineReader lineReader;
@@ -19,12 +20,11 @@ public class BankOCR {
         if (lines.isEmpty())
             return emptyList();
 
-        List<String> accountNumbers = new ArrayList<>();
-        for (int i = 0; i < lines.size(); i += 4) {
-            String accountNumber = accountNumberParser.parse(new AccountNumberRow(lines.get(i), lines.get(i + 1), lines.get(i + 2)));
-            accountNumbers.add(accountNumber);
-        }
-
-        return accountNumbers;
+        return IntStream.iterate(0, i -> i < lines.size(), i -> i + 4)
+                .mapToObj(i -> {
+                    AccountNumberRow accountNumberRow = new AccountNumberRow(lines.get(i), lines.get(i + 1), lines.get(i + 2));
+                    return accountNumberParser.parse(accountNumberRow);
+                })
+                .collect(toList());
     }
 }
