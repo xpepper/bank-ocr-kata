@@ -5,9 +5,9 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class AccountNumberRow {
 
-    private final String line1;
-    private final String line2;
-    private final String line3;
+    public final String line1;
+    public final String line2;
+    public final String line3;
 
     public AccountNumberRow(String line1, String line2, String line3) {
         this.line1 = line1;
