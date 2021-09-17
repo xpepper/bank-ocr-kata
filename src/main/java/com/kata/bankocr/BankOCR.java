@@ -23,13 +23,16 @@ public class BankOCR {
         if (lines.isEmpty())
             return emptyList();
 
-        return IntStream.iterate(0, i -> i < lines.size(), i -> i + ACCOUNT_NUMBER_ENTRY_SIZE)
-                .mapToObj(i -> toAccountNumber(lines, i))
+        return chunkOf(ACCOUNT_NUMBER_ENTRY_SIZE, lines.size())
+                .mapToObj(i -> toAccountNumber(lines.subList(i, i + DIGIT_SIZE)))
                 .collect(toList());
     }
 
-    private String toAccountNumber(List<String> lines, int i) {
-        List<String> rows = lines.subList(i, i + DIGIT_SIZE);
+    private IntStream chunkOf(int accountNumberEntrySize, int size) {
+        return IntStream.iterate(0, i -> i < size, i -> i + accountNumberEntrySize);
+    }
+
+    private String toAccountNumber(List<String> rows) {
         AccountNumberRows accountNumberRows = new AccountNumberRows(rows.get(0), rows.get(1), rows.get(2));
         return accountNumberParser.parse(accountNumberRows);
     }
