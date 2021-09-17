@@ -19,6 +19,40 @@ public class LCDNumber {
             " _ ",
             " _|",
             "|_ ");
+    private static final LCDNumber THREE = new LCDNumber(
+            " _ ",
+            " _|",
+            " _|");
+
+    private static final LCDNumber FOUR = new LCDNumber(
+            "   ",
+            "|_|",
+            "  |");
+
+    private static final LCDNumber FIVE = new LCDNumber(
+            " _ ",
+            "|_ ",
+            " _|");
+    private static final LCDNumber SIX = new LCDNumber(
+            " _ ",
+            "|_ ",
+            "|_|");
+    private static final LCDNumber SEVEN = new LCDNumber(
+            " _ ",
+            "  |",
+            "  |");
+    private static final LCDNumber EIGHT = new LCDNumber(
+            " _ ",
+            "|_|",
+            "|_|");
+    private static final LCDNumber NINE = new LCDNumber(
+            " _ ",
+            "|_|",
+            " _|");
+    private static final LCDNumber ZERO = new LCDNumber(
+            " _ ",
+            "| |",
+            "|_|");
 
     public LCDNumber(String row1, String row2, String row3) {
         this.row1 = row1;
@@ -27,7 +61,18 @@ public class LCDNumber {
     }
 
     public Integer toDigit() {
-        Map<LCDNumber, Integer> dictionary = Map.of(ONE, 1, TWO, 2);
+        Map<LCDNumber, Integer> dictionary = Map.of(
+                ONE, 1,
+                TWO, 2,
+                THREE, 3,
+                FOUR, 4,
+                FIVE, 5,
+                SIX, 6,
+                SEVEN, 7,
+                EIGHT, 8,
+                NINE, 9,
+                ZERO, 0
+        );
         return dictionary.get(this);
     }
 
