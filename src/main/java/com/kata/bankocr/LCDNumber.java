@@ -2,7 +2,7 @@ package com.kata.bankocr;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import java.util.Map;
 
@@ -32,11 +32,7 @@ public class LCDNumber {
     }
 
     @Override public String toString() {
-        return new ToStringBuilder(this)
-                .append("line1", line1)
-                .append("line2", line2)
-                .append("line3", line3)
-                .toString();
+        return new ReflectionToStringBuilder(this).toString();
     }
 
     @Override public boolean equals(Object o) {
