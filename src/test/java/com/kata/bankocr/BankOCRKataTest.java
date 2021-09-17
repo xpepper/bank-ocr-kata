@@ -1,7 +1,5 @@
-import com.kata.bankocr.AccountNumberParser;
-import com.kata.bankocr.AccountNumberRow;
-import com.kata.bankocr.BankOCR;
-import com.kata.bankocr.LineReader;
+package com.kata.bankocr;
+
 import org.junit.jupiter.api.Test;
 
 import java.util.Collection;
