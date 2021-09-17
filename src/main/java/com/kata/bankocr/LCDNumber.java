@@ -7,9 +7,9 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import java.util.Map;
 
 public class LCDNumber {
-    private final String line1;
-    private final String line2;
-    private final String line3;
+    private final String row1;
+    private final String row2;
+    private final String row3;
 
     private static final LCDNumber ONE = new LCDNumber(
             "   ",
@@ -20,10 +20,10 @@ public class LCDNumber {
             " _|",
             "|_ ");
 
-    public LCDNumber(String line1, String line2, String line3) {
-        this.line1 = line1;
-        this.line2 = line2;
-        this.line3 = line3;
+    public LCDNumber(String row1, String row2, String row3) {
+        this.row1 = row1;
+        this.row2 = row2;
+        this.row3 = row3;
     }
 
     public Integer toDigit() {
@@ -42,10 +42,10 @@ public class LCDNumber {
 
         LCDNumber lcdNumber = (LCDNumber) o;
 
-        return new EqualsBuilder().append(line1, lcdNumber.line1).append(line2, lcdNumber.line2).append(line3, lcdNumber.line3).isEquals();
+        return new EqualsBuilder().append(row1, lcdNumber.row1).append(row2, lcdNumber.row2).append(row3, lcdNumber.row3).isEquals();
     }
 
     @Override public int hashCode() {
-        return new HashCodeBuilder(17, 37).append(line1).append(line2).append(line3).toHashCode();
+        return new HashCodeBuilder(17, 37).append(row1).append(row2).append(row3).toHashCode();
     }
 }

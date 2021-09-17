@@ -8,14 +8,14 @@ import static java.util.stream.Collectors.toList;
 
 public class AccountNumberParser {
 
-    public String parse(AccountNumberRow accountNumberRow) {
+    public String parse(AccountNumberRows accountNumberRows) {
 
-        List<String> line1 = splitByNumber(accountNumberRow.line1);
-        List<String> line2 = splitByNumber(accountNumberRow.line2);
-        List<String> line3 = splitByNumber(accountNumberRow.line3);
+        List<String> allRow1s = splitByNumber(accountNumberRows.row1);
+        List<String> allRow2s = splitByNumber(accountNumberRows.row2);
+        List<String> allRow3s = splitByNumber(accountNumberRows.row3);
 
-        List<LCDNumber> lcdNumbers = IntStream.range(0, line1.size())
-                .mapToObj(i -> new LCDNumber(line1.get(i), line2.get(i), line3.get(i)))
+        List<LCDNumber> lcdNumbers = IntStream.range(0, allRow1s.size())
+                .mapToObj(i -> new LCDNumber(allRow1s.get(i), allRow2s.get(i), allRow3s.get(i)))
                 .collect(toList());
 
         return lcdNumbers.stream()

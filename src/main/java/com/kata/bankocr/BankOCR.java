@@ -26,7 +26,7 @@ public class BankOCR {
     }
 
     private String toAccountNumber(List<String> lines, int i) {
-        AccountNumberRow accountNumberRow = new AccountNumberRow(lines.get(i), lines.get(i + 1), lines.get(i + 2));
-        return accountNumberParser.parse(accountNumberRow);
+        AccountNumberRows accountNumberRows = new AccountNumberRows(lines.get(i), lines.get(i + 1), lines.get(i + 2));
+        return accountNumberParser.parse(accountNumberRows);
     }
 }

@@ -7,7 +7,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class AccountNumberParserTest {
     @Test
     void parse_a_single_digit_account_number() {
-        AccountNumberRow one = new AccountNumberRow(
+        AccountNumberRows one = new AccountNumberRows(
                 "   ",
                 "  |",
                 "  |");
@@ -18,7 +18,7 @@ class AccountNumberParserTest {
 
     @Test
     void parse_a_two_digits_account_number() {
-        AccountNumberRow one = new AccountNumberRow(
+        AccountNumberRows one = new AccountNumberRows(
                 "    _ ",
                 "  | _|",
                 "  ||_ ");

@@ -43,7 +43,7 @@ public class BankOCRKataTest {
     @Test
     void parse_a_single_account_number() {
         when(lineReader.readLines()).thenReturn(ONE_ACCOUNT_NUMBER);
-        when(accountNumberParser.parse(new AccountNumberRow("line1", "line2", "line3"))).thenReturn("an account number");
+        when(accountNumberParser.parse(new AccountNumberRows("line1", "line2", "line3"))).thenReturn("an account number");
 
         List<String> accountNumbers = new BankOCR(lineReader, accountNumberParser).parseAccountNumbers();
 
@@ -53,8 +53,8 @@ public class BankOCRKataTest {
     @Test
     void parse_two_account_numbers() {
         when(lineReader.readLines()).thenReturn(linesOf(ONE_ACCOUNT_NUMBER, ANOTHER_ACCOUNT_NUMBER));
-        when(accountNumberParser.parse(new AccountNumberRow("line1", "line2", "line3"))).thenReturn("an account number");
-        when(accountNumberParser.parse(new AccountNumberRow("another line1", "another line2", "another line3"))).thenReturn("another account number");
+        when(accountNumberParser.parse(new AccountNumberRows("line1", "line2", "line3"))).thenReturn("an account number");
+        when(accountNumberParser.parse(new AccountNumberRows("another line1", "another line2", "another line3"))).thenReturn("another account number");
 
         List<String> accountNumbers = new BankOCR(lineReader, accountNumberParser).parseAccountNumbers();
 
