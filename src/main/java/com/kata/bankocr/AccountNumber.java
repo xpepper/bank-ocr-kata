@@ -17,7 +17,9 @@ public class AccountNumber {
 
     public boolean isValid() {
         List<Integer> digits = digits();
-        int value = IntStream.range(0, digits.size()).map(i -> digits.get(i) * (2 + i)).sum();
+        int value = IntStream.range(0, digits.size())
+                .map(i -> digits.get(i) * (2 + i))
+                .sum();
         return value % 11 == 0;
     }
 

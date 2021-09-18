@@ -3,7 +3,6 @@ package com.kata.bankocr;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 
 public class BankOCR {
@@ -20,8 +19,6 @@ public class BankOCR {
 
     public List<AccountNumber> parseAccountNumbers() {
         List<String> lines = lineReader.readLines();
-        if (lines.isEmpty())
-            return emptyList();
 
         return chunkOf(ACCOUNT_NUMBER_ENTRY_SIZE, lines.size())
                 .mapToObj(i -> toAccountNumber(lines.subList(i, i + DIGIT_SIZE)))
