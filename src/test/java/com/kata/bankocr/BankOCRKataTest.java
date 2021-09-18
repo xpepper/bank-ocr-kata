@@ -1,5 +1,6 @@
 package com.kata.bankocr;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collection;
@@ -29,36 +30,33 @@ public class BankOCRKataTest {
     );
 
     private final LineReader lineReader = mock(LineReader.class);
-    private final AccountNumberParser accountNumberParser = mock(AccountNumberParser.class);
+    private final AccountNumberParser parser = mock(AccountNumberParser.class);
+
+    private BankOCR bankOCR;
+
+    @BeforeEach
+    void setUp() {
+        bankOCR = new BankOCR(lineReader, parser);
+    }
 
     @Test
     void parsing_an_empty_stream_of_files_results_in_an_empty_list_of_account_numbers() {
         when(lineReader.readLines()).thenReturn(emptyList());
 
-        List<AccountNumber> accountNumbers = new BankOCR(lineReader, accountNumberParser).parseAccountNumbers();
+        List<AccountNumber> accountNumbers = bankOCR.parseAccountNumbers();
 
         assertThat(accountNumbers).isEmpty();
     }
 
     @Test
-    void parse_a_single_account_number() {
-        when(lineReader.readLines()).thenReturn(ONE_ACCOUNT_NUMBER);
-        when(accountNumberParser.parse(new AccountNumberRows("line1", "line2", "line3"))).thenReturn(new AccountNumber("a number"));
-
-        List<AccountNumber> accountNumbers = new BankOCR(lineReader, accountNumberParser).parseAccountNumbers();
-
-        assertThat(accountNumbers).isEqualTo(List.of(new AccountNumber("a number")));
-    }
-
-    @Test
     void parse_two_account_numbers() {
         when(lineReader.readLines()).thenReturn(linesOf(ONE_ACCOUNT_NUMBER, ANOTHER_ACCOUNT_NUMBER));
-        when(accountNumberParser.parse(new AccountNumberRows("line1", "line2", "line3"))).thenReturn(new AccountNumber("a number"));
-        when(accountNumberParser.parse(new AccountNumberRows("another line1", "another line2", "another line3"))).thenReturn(new AccountNumber("another number"));
+        when(parser.parse(new AccountNumberRows("line1", "line2", "line3"))).thenReturn(new AccountNumber("a number"));
+        when(parser.parse(new AccountNumberRows("another line1", "another line2", "another line3"))).thenReturn(new AccountNumber("another number"));
 
-        List<AccountNumber> accountNumbers = new BankOCR(lineReader, accountNumberParser).parseAccountNumbers();
+        List<AccountNumber> accountNumbers = bankOCR.parseAccountNumbers();
 
-        assertThat(accountNumbers).isEqualTo(List.of(new AccountNumber("a number"), new AccountNumber("another number")));
+        assertThat(accountNumbers).isEqualTo(asList(new AccountNumber("a number"), new AccountNumber("another number")));
     }
 
     private List<String> linesOf(List<String> oneAccountNumber, List<String> anotherAccountNumber) {
@@ -68,5 +66,4 @@ public class BankOCRKataTest {
     private List<String> flatten(List<String> list, List<String> anotherList) {
         return Stream.of(list, anotherList).flatMap(Collection::stream).collect(toList());
     }
-
 }
