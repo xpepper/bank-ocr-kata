@@ -30,10 +30,9 @@ public class BankOCR {
     }
 
     private List<AccountNumber> parse(List<String> lines) {
-        List<AccountNumber> accountNumbers = chunkOf(ACCOUNT_NUMBER_ENTRY_SIZE, lines.size())
+        return chunkOf(ACCOUNT_NUMBER_ENTRY_SIZE, lines.size())
                 .mapToObj(i -> toAccountNumber(lines.subList(i, i + DIGIT_SIZE)))
                 .collect(toList());
-        return accountNumbers;
     }
 
     private IntStream chunkOf(int accountNumberEntrySize, int size) {
