@@ -13,9 +13,13 @@ public class ReportWriter {
 
     public void writeFor(List<AccountNumber> accountNumbers) {
         List<String> lines = accountNumbers.stream()
-                .map(AccountNumber::toString)
+                .map(accountNumber -> format(accountNumber))
                 .collect(toList());
-        
+
         reportStorage.save(lines);
+    }
+
+    private String format(AccountNumber accountNumber) {
+        return accountNumber.toString() + (!accountNumber.isValid() ? " ERR" : "");
     }
 }
