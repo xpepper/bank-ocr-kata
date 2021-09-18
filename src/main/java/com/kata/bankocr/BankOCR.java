@@ -11,19 +11,28 @@ public class BankOCR {
 
     private final LineReader lineReader;
     private final AccountNumberParser accountNumberParser;
+    private final ReportWriter reportWriter;
 
-    public BankOCR(LineReader lineReader, AccountNumberParser accountNumberParser) {
+    public BankOCR(LineReader lineReader, AccountNumberParser accountNumberParser, ReportWriter reportWriter) {
         this.lineReader = lineReader;
         this.accountNumberParser = accountNumberParser;
+        this.reportWriter = reportWriter;
     }
 
     public List<AccountNumber> parseAccountNumbers() {
         List<String> lines = lineReader.readLines();
 
+        List<AccountNumber> accountNumbers = parse(lines);
+
+        reportWriter.writeFor(accountNumbers);
+
+        return accountNumbers;
+    }
+
+    private List<AccountNumber> parse(List<String> lines) {
         List<AccountNumber> accountNumbers = chunkOf(ACCOUNT_NUMBER_ENTRY_SIZE, lines.size())
                 .mapToObj(i -> toAccountNumber(lines.subList(i, i + DIGIT_SIZE)))
                 .collect(toList());
-
         return accountNumbers;
     }
 

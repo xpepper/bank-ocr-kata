@@ -11,8 +11,8 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 public class BankOCRKataTest {
 
@@ -31,12 +31,13 @@ public class BankOCRKataTest {
 
     private final LineReader lineReader = mock(LineReader.class);
     private final AccountNumberParser parser = mock(AccountNumberParser.class);
+    private final ReportWriter reportWriter = mock(ReportWriter.class);
 
     private BankOCR bankOCR;
 
     @BeforeEach
     void setUp() {
-        bankOCR = new BankOCR(lineReader, parser);
+        bankOCR = new BankOCR(lineReader, parser, reportWriter);
     }
 
     @Test
@@ -57,6 +58,16 @@ public class BankOCRKataTest {
         List<AccountNumber> accountNumbers = bankOCR.parseAccountNumbers();
 
         assertThat(accountNumbers).isEqualTo(asList(new AccountNumber("a number"), new AccountNumber("another number")));
+    }
+
+    @Test
+    void writes_an_OCR_scanning_report_at_the_end() {
+        when(lineReader.readLines()).thenReturn(asList("line1", "line2", "line3"));
+        when(parser.parse(any())).thenReturn(new AccountNumber("a number"));
+
+        List<AccountNumber> accountNumbers = bankOCR.parseAccountNumbers();
+        
+        verify(reportWriter).writeFor(accountNumbers);
     }
 
     private List<String> linesOf(List<String> oneAccountNumber, List<String> anotherAccountNumber) {
