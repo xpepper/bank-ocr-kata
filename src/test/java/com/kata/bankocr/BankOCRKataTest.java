@@ -28,6 +28,7 @@ public class BankOCRKataTest {
             "another line3",
             ""
     );
+    private static final AccountNumber ANY_ACCOUNT_NUMBER = new AccountNumber("a number");
 
     private final LineReader lineReader = mock(LineReader.class);
     private final AccountNumberParser parser = mock(AccountNumberParser.class);
@@ -63,11 +64,11 @@ public class BankOCRKataTest {
     @Test
     void writes_an_OCR_scanning_report_at_the_end() {
         when(lineReader.readLines()).thenReturn(asList("line1", "line2", "line3"));
-        when(parser.parse(any())).thenReturn(new AccountNumber("a number"));
+        when(parser.parse(any())).thenReturn(ANY_ACCOUNT_NUMBER);
 
-        List<AccountNumber> accountNumbers = bankOCR.scanAccountNumbers();
+        bankOCR.scanAccountNumbers();
 
-        verify(reportWriter).writeFor(accountNumbers);
+        verify(reportWriter).writeFor(asList(ANY_ACCOUNT_NUMBER));
     }
 
     private List<String> linesOf(List<String> oneAccountNumber, List<String> anotherAccountNumber) {
