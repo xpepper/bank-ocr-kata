@@ -12,7 +12,7 @@ public class Main {
                 throw new UnsupportedOperationException("TODO");
             }
         });
-        System.out.println("account numbers = " + bankOCR.parseAccountNumbers());
+        System.out.println("account numbers = " + bankOCR.scanAccountNumbers());
     }
 
 }

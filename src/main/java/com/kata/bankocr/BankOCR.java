@@ -19,7 +19,7 @@ public class BankOCR {
         this.reportWriter = reportWriter;
     }
 
-    public List<AccountNumber> parseAccountNumbers() {
+    public List<AccountNumber> scanAccountNumbers() {
         List<String> lines = lineReader.readLines();
 
         List<AccountNumber> accountNumbers = parse(lines);

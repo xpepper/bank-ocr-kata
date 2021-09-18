@@ -41,21 +41,21 @@ public class BankOCRKataTest {
     }
 
     @Test
-    void parsing_an_empty_stream_of_files_results_in_an_empty_list_of_account_numbers() {
+    void scanning_an_empty_stream_of_lines_results_in_an_empty_list_of_account_numbers() {
         when(lineReader.readLines()).thenReturn(emptyList());
 
-        List<AccountNumber> accountNumbers = bankOCR.parseAccountNumbers();
+        List<AccountNumber> accountNumbers = bankOCR.scanAccountNumbers();
 
         assertThat(accountNumbers).isEmpty();
     }
 
     @Test
-    void parse_two_account_numbers() {
+    void scan_two_account_numbers() {
         when(lineReader.readLines()).thenReturn(linesOf(ONE_ACCOUNT_NUMBER, ANOTHER_ACCOUNT_NUMBER));
         when(parser.parse(new AccountNumberRows("line1", "line2", "line3"))).thenReturn(new AccountNumber("a number"));
         when(parser.parse(new AccountNumberRows("another line1", "another line2", "another line3"))).thenReturn(new AccountNumber("another number"));
 
-        List<AccountNumber> accountNumbers = bankOCR.parseAccountNumbers();
+        List<AccountNumber> accountNumbers = bankOCR.scanAccountNumbers();
 
         assertThat(accountNumbers).isEqualTo(asList(new AccountNumber("a number"), new AccountNumber("another number")));
     }
@@ -65,8 +65,8 @@ public class BankOCRKataTest {
         when(lineReader.readLines()).thenReturn(asList("line1", "line2", "line3"));
         when(parser.parse(any())).thenReturn(new AccountNumber("a number"));
 
-        List<AccountNumber> accountNumbers = bankOCR.parseAccountNumbers();
-        
+        List<AccountNumber> accountNumbers = bankOCR.scanAccountNumbers();
+
         verify(reportWriter).writeFor(accountNumbers);
     }
 
