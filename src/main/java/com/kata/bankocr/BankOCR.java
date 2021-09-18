@@ -18,7 +18,7 @@ public class BankOCR {
         this.accountNumberParser = accountNumberParser;
     }
 
-    public List<String> parseAccountNumbers() {
+    public List<AccountNumber> parseAccountNumbers() {
         List<String> lines = lineReader.readLines();
         if (lines.isEmpty())
             return emptyList();
@@ -32,7 +32,7 @@ public class BankOCR {
         return IntStream.iterate(0, i -> i < size, i -> i + accountNumberEntrySize);
     }
 
-    private String toAccountNumber(List<String> rows) {
+    private AccountNumber toAccountNumber(List<String> rows) {
         AccountNumberRows accountNumberRows = new AccountNumberRows(rows.get(0), rows.get(1), rows.get(2));
         return accountNumberParser.parse(accountNumberRows);
     }

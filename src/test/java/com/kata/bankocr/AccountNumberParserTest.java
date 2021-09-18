@@ -12,8 +12,8 @@ class AccountNumberParserTest {
                 "| |",
                 "|_|");
 
-        String accountNumber = new AccountNumberParser().parse(zero);
-        assertThat(accountNumber).isEqualTo("0");
+        AccountNumber accountNumber = new AccountNumberParser().parse(zero);
+        assertThat(accountNumber).isEqualTo(new AccountNumber("0"));
     }
 
     @Test
@@ -24,8 +24,8 @@ class AccountNumberParserTest {
                 "  ||_ "
         );
 
-        String accountNumber = new AccountNumberParser().parse(twelve);
-        assertThat(accountNumber).isEqualTo("12");
+        AccountNumber accountNumber = new AccountNumberParser().parse(twelve);
+        assertThat(accountNumber).isEqualTo(new AccountNumber("12"));
     }
 
     @Test
@@ -36,7 +36,7 @@ class AccountNumberParserTest {
                 "  ||_  _|  | _||_|  ||_| _|"
         );
 
-        String accountNumber = new AccountNumberParser().parse(twelve);
-        assertThat(accountNumber).isEqualTo("123456789");
+        AccountNumber accountNumber = new AccountNumberParser().parse(twelve);
+        assertThat(accountNumber).isEqualTo(new AccountNumber("123456789"));
     }
 }

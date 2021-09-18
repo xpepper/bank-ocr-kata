@@ -1,5 +1,8 @@
 package com.kata.bankocr;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -24,5 +27,23 @@ public class AccountNumber {
                 .map(String::valueOf)
                 .map(Integer::valueOf)
                 .collect(toList());
+    }
+
+    @Override public String toString() {
+        return number;
+    }
+
+    @Override public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AccountNumber that = (AccountNumber) o;
+
+        return new EqualsBuilder().append(number, that.number).isEquals();
+    }
+
+    @Override public int hashCode() {
+        return new HashCodeBuilder(17, 37).append(number).toHashCode();
     }
 }

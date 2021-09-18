@@ -35,7 +35,7 @@ public class BankOCRKataTest {
     void parsing_an_empty_stream_of_files_results_in_an_empty_list_of_account_numbers() {
         when(lineReader.readLines()).thenReturn(emptyList());
 
-        List<String> accountNumbers = new BankOCR(lineReader, accountNumberParser).parseAccountNumbers();
+        List<AccountNumber> accountNumbers = new BankOCR(lineReader, accountNumberParser).parseAccountNumbers();
 
         assertThat(accountNumbers).isEmpty();
     }
@@ -43,22 +43,22 @@ public class BankOCRKataTest {
     @Test
     void parse_a_single_account_number() {
         when(lineReader.readLines()).thenReturn(ONE_ACCOUNT_NUMBER);
-        when(accountNumberParser.parse(new AccountNumberRows("line1", "line2", "line3"))).thenReturn("an account number");
+        when(accountNumberParser.parse(new AccountNumberRows("line1", "line2", "line3"))).thenReturn(new AccountNumber("a number"));
 
-        List<String> accountNumbers = new BankOCR(lineReader, accountNumberParser).parseAccountNumbers();
+        List<AccountNumber> accountNumbers = new BankOCR(lineReader, accountNumberParser).parseAccountNumbers();
 
-        assertThat(accountNumbers).isEqualTo(List.of("an account number"));
+        assertThat(accountNumbers).isEqualTo(List.of(new AccountNumber("a number")));
     }
 
     @Test
     void parse_two_account_numbers() {
         when(lineReader.readLines()).thenReturn(linesOf(ONE_ACCOUNT_NUMBER, ANOTHER_ACCOUNT_NUMBER));
-        when(accountNumberParser.parse(new AccountNumberRows("line1", "line2", "line3"))).thenReturn("an account number");
-        when(accountNumberParser.parse(new AccountNumberRows("another line1", "another line2", "another line3"))).thenReturn("another account number");
+        when(accountNumberParser.parse(new AccountNumberRows("line1", "line2", "line3"))).thenReturn(new AccountNumber("a number"));
+        when(accountNumberParser.parse(new AccountNumberRows("another line1", "another line2", "another line3"))).thenReturn(new AccountNumber("another number"));
 
-        List<String> accountNumbers = new BankOCR(lineReader, accountNumberParser).parseAccountNumbers();
+        List<AccountNumber> accountNumbers = new BankOCR(lineReader, accountNumberParser).parseAccountNumbers();
 
-        assertThat(accountNumbers).isEqualTo(List.of("an account number", "another account number"));
+        assertThat(accountNumbers).isEqualTo(List.of(new AccountNumber("a number"), new AccountNumber("another number")));
     }
 
     private List<String> linesOf(List<String> oneAccountNumber, List<String> anotherAccountNumber) {
