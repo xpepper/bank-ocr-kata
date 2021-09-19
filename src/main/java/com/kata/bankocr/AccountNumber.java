@@ -16,6 +16,14 @@ public class AccountNumber {
     }
 
     public boolean isValid() {
+        return isLegible() && hasValidChecksum();
+    }
+
+    private boolean isLegible() {
+        return !number.contains("?");
+    }
+    
+    private boolean hasValidChecksum() {
         List<Integer> digits = digits();
         int value = IntStream.range(0, digits.size())
                 .map(i -> digits.get(i) * (2 + i))
