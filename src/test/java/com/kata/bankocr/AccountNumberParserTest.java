@@ -39,4 +39,16 @@ class AccountNumberParserTest {
         AccountNumber accountNumber = new AccountNumberParser().parse(twelve);
         assertThat(accountNumber).isEqualTo(new AccountNumber("123456789"));
     }
+
+    @Test
+    void replace_a_not_parsable_digit_with_a_question_mark() {
+        AccountNumberRows twoDigits = new AccountNumberRows(
+                " _  _ ",
+                " _  _|",
+                " _ |_ "
+        );
+
+        AccountNumber accountNumber = new AccountNumberParser().parse(twoDigits);
+        assertThat(accountNumber).isEqualTo(new AccountNumber("?2"));
+    }
 }

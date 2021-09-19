@@ -18,9 +18,15 @@ public class AccountNumberParser {
         String number = IntStream.range(0, allRow1s.size())
                 .mapToObj(i -> new LCDNumber(allRow1s.get(i), allRow2s.get(i), allRow3s.get(i)))
                 .map(LCDNumber::toDigit)
-                .map(String::valueOf)
+                .map(digit -> asString(digit))
                 .collect(joining());
         return new AccountNumber(number);
+    }
+
+    private String asString(Integer digit) {
+        if (digit == null)
+            return "?";
+        return String.valueOf(digit);
     }
 
     private List<String> splitByNumber(String line) {
