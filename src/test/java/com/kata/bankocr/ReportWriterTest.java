@@ -29,12 +29,22 @@ public class ReportWriterTest {
     }
 
     @Test
-    void writes_a_report_containing_invalid_an_account_number() {
+    void writes_a_report_containing_an_invalid_account_number() {
         AccountNumber valid = new AccountNumber("457508000");
         AccountNumber invalid = new AccountNumber("123123123");
 
         reportWriter.writeFor(asList(valid, invalid));
 
         verify(reportStorage).save(asList("457508000", "123123123 ERR"));
+    }
+
+    @Test
+    void writes_a_report_containing_an_illegible_account_number() {
+        AccountNumber valid = new AccountNumber("457508000");
+        AccountNumber invalid = new AccountNumber("86110??36");
+
+        reportWriter.writeFor(asList(valid, invalid));
+
+        verify(reportStorage).save(asList("457508000", "86110??36 ILL"));
     }
 }

@@ -20,6 +20,9 @@ public class ReportWriter {
     }
 
     private String format(AccountNumber accountNumber) {
-        return accountNumber.toString() + (!accountNumber.isValid() ? " ERR" : "");
+        if (!accountNumber.isLegible()) return accountNumber + " ILL";
+        if (!accountNumber.isValid()) return accountNumber + " ERR";
+
+        return accountNumber + "";
     }
 }

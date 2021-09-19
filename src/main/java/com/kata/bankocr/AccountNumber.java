@@ -19,7 +19,7 @@ public class AccountNumber {
         return isLegible() && hasValidChecksum();
     }
 
-    private boolean isLegible() {
+    public boolean isLegible() {
         return !number.contains("?");
     }
     
