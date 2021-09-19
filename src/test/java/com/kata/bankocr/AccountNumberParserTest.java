@@ -1,10 +1,19 @@
 package com.kata.bankocr;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class AccountNumberParserTest {
+
+    private AccountNumberParser parser;
+
+    @BeforeEach
+    void setUp() {
+        parser = new AccountNumberParser();
+    }
+
     @Test
     void parse_a_single_digit_account_number() {
         AccountNumberRows zero = new AccountNumberRows(
@@ -12,7 +21,7 @@ class AccountNumberParserTest {
                 "| |",
                 "|_|");
 
-        AccountNumber accountNumber = new AccountNumberParser().parse(zero);
+        AccountNumber accountNumber = parser.parse(zero);
         assertThat(accountNumber).isEqualTo(new AccountNumber("0"));
     }
 
@@ -24,7 +33,7 @@ class AccountNumberParserTest {
                 "  ||_ "
         );
 
-        AccountNumber accountNumber = new AccountNumberParser().parse(twelve);
+        AccountNumber accountNumber = parser.parse(twelve);
         assertThat(accountNumber).isEqualTo(new AccountNumber("12"));
     }
 
@@ -36,7 +45,7 @@ class AccountNumberParserTest {
                 "  ||_  _|  | _||_|  ||_| _|"
         );
 
-        AccountNumber accountNumber = new AccountNumberParser().parse(twelve);
+        AccountNumber accountNumber = parser.parse(twelve);
         assertThat(accountNumber).isEqualTo(new AccountNumber("123456789"));
     }
 
@@ -48,7 +57,7 @@ class AccountNumberParserTest {
                 " _ |_ "
         );
 
-        AccountNumber accountNumber = new AccountNumberParser().parse(twoDigits);
+        AccountNumber accountNumber = parser.parse(twoDigits);
         assertThat(accountNumber).isEqualTo(new AccountNumber("?2"));
     }
 }
